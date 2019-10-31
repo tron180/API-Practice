@@ -1,36 +1,38 @@
 console.log('Started....');
+let adapter = require('./arrayApdapter');
 
 let array_of_numbers = [
     {
-        "id" : 1,
-        "name" : "Naman",
-        "age" : 32
+        "id": 1,
+        "age": 32
     },
     {
-        "id" : 2,
-        "name" : "Namrata",
-        "age" : 36
+        "id": 2,
+        "age": 36
     },
     {
-        "id" : 3,
-        "name" : "Rahul",
-        "age" : 41
+        "id": 3,
+        "age": 41
     },
     {
-        "id" : 4,
-        "name" : "Vivek",
-        "age" : 45
+        "id": 4,
+        "age": 45
     }
 ];
 
-
-save()
+adapter.save(array_of_numbers, { "id": 5, "age": 39 })
     .then((object) => {
-        console.log(object + ' successfully added..!!');
-    }).catch(
-        console.log('Something went wrong.')
-    )
+        console.log('Successfully added..!!');
+    }).catch(err => {
+        console.log('Something went wrong.', err)
+    })
 
+adapter.find(array_of_numbers, { "age": 36 })
+    .then((object) => {
+        console.log('Found on ' + object)
+    }).catch(err => {
+        console.log('Data not found.')
+    })
 
 // // Converting from Array to Object
 // const converter = (array) => {
@@ -54,7 +56,7 @@ save()
 // }
 
 // getSpecific = (position) => {
-    
+
 //     console.log(arr[position]);
 // }
 
@@ -76,13 +78,13 @@ save()
 
 
 
-let apadter = mongodapter
-let apadter = fileadapter
+// let apadter = mongodapter
+// let apadter = fileadapter
 
-apadter.save()
+// apadter.save()
 
-adapter.update()
+// adapter.update()
 
-adapter.find()
+// adapter.find()
 
-adapter.delete()
+// adapter.delete()
