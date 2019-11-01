@@ -24,7 +24,7 @@ let find = (array_of_numbers, object) => {
                         }
                     }
                 }
-            }reject('Failed');
+            } reject('Failed');
         })
     })
 };
@@ -32,14 +32,30 @@ let find = (array_of_numbers, object) => {
 // Update Method
 let update = (array_of_numbers, finder_object, changed_data_object) => {
     return new Promise((resolve, reject) => {
-        
-        for(let i = 0; i <= array_of_numbers.length; i++){
-            for(let j = 0; j <= Object.keys(changed_data_object).length; j++){
-                Object.keys(array_of_numbers[i]).filter(() => {
-                    array_of_numbers[i].Object.keys(changed_data_object)[j] 
-                })
-            }
-        }
+        array_of_numbers.map(item => {
+            Object.keys(finder_object).map(item1 => {
+                if (item[item1] == finder_object[item1]) {
+                    item[item1] = changed_data_object[item1]
+                    return resolve(array_of_numbers);
+                }
+            })
+        });
+        reject('Failed');
+    })
+};
+
+// Delete Method
+let deleted = (array_of_numbers, deleting_object) => {
+    return new Promise((resolve, reject) => {
+        array_of_numbers.map(item => {
+            Object.keys(deleting_object).map(item1 => {
+                if(item[item1] == deleting_object[item1]) {
+                    delete item[item1]
+                    return resolve(array_of_numbers)
+                }
+            })
+        })
+        reject('Failed');
     })
 }
 
@@ -47,17 +63,4 @@ let update = (array_of_numbers, finder_object, changed_data_object) => {
 exports.save = save;
 exports.find = find;
 exports.update = update;
-
-// let update = () => {
-
-// }
-
-
-// let deleted = (element) => {
-//     for(let i = 0; i <= array_of_numbers.length; i++){
-//         if ( arr[i] === element) {
-//             arr.splice(i, 1); 
-//         }
-//     }
-//     console.log(array_of_numbers);
-// };
+exports.deleted = deleted;
