@@ -1,10 +1,12 @@
 console.log('Started....');
 let adapter = require('./arrayApdapter');
+let Person = require('./person.js')
 
-var p1 = adapter.ArrayAdapter({"id": 4, "age": 47});
+var pT1 = new adapter();
+var p1 = new Person(pT1)
 
 
-p1.save({ "id": 5, "age": 39 })
+p1.save({ 'name': 'Alice', 'BirthYear': 1996 })
 	.then((object) => {
 		console.log('Successfully added..!! ' + JSON.stringify(object));
 	}).catch(err => {
@@ -12,33 +14,34 @@ p1.save({ "id": 5, "age": 39 })
 	})
 
 	.then(() => {
-		return p1.save({ "id": 5, "age": 36 })
+		return p1.save({ 'name': 'John', 'BirthYear': 1995 })
 	}).catch(err => {
 		console.log('Something went wrong.', err)
 	})
 
-	.then(() => {
-		return p1.find({ "id": 5 })
+	.then((object) => {
+		console.log('Successfully added..!! ' + JSON.stringify(object));
+		return p1.find({ 'name': 'John' })
 	}).catch(err => {
 		console.log('Data Not Found.', err)
 	})
 
 	.then((object) => {
-		console.log('f',JSON.stringify(object))
-		return p1.update({ 'age': 36 }, { 'age': 63 })
+		console.log('Successfully Found...!!', JSON.stringify(object))
+		return p1.update({ 'age': 24 }, { 'age': 63 })
 	}).catch(err => {
-		console.log('Data Not Found.')
+		console.log('Data Not Found for Updation.')
 	})
 
 	.then((object) => {
-		console.log('u',JSON.stringify(object))
+		console.log('Successfully Updated..!!', JSON.stringify(object))
 		return p1.delete({ 'age': 63 })
 	}).catch(err => {
-		console.log('Data Not Found.')
+		console.log('delete failed', err)
 	})
 
 	.then((object) => {
-		console.log('d',JSON.stringify(object))
+		console.log('Successfully Deleted..!!', JSON.stringify(object))
 	}).catch(err => {
 		console.log('Data Not Found.')
 	})
