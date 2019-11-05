@@ -1,29 +1,47 @@
 class Person {
-    constructor(adapter) {
-        this.adapter = adapter;
-    };
-    
-    save(object) {
-        return new Promise((resolve, reject) => {
-            if(object.name && object.BirthYear){
-                resolve(this.adapter.save(object))
-            }else{
-                reject('Something is missing')
-            }
-        })
-    }
+	constructor(adapter) {
+		this.adapter = adapter;
+	};
 
-    find(object){
-        return this.adapter.find(object);
-    }
+	save(object) {
+		return new Promise((resolve, reject) => {
+			if (object.name && object.BirthYear) {
+				resolve(this.adapter.save(object))
+			} else {
+				reject('Something is missing')
+			}
+		})
+	}
 
-    update(finder_object, changed_data_object){
-        return this.adapter.update(finder_object, changed_data_object);
-    }
+	find(object) {
+		return new Promise((resolve, reject) => {
+			if (object) {
+				resolve(this.adapter.find(object));
+			} else {
+				reject(err)
+			}
+		})
+	}
 
-    delete(deleting_object){
-        return this.adapter.delete(deleting_object);
-    }
+	update(finder_object, changed_data_object) {
+		return new Promise((resolve, reject) => {
+			if (finder_object && changed_data_object) {
+				resolve(this.adapter.update(finder_object, changed_data_object));
+			} else {
+				reject(err);
+			}
+		});
+	}
+
+	delete(deleting_object) {
+		return new Promise((resolve, reject) => {
+			if (deleting_object) {
+				resolve(this.adapter.delete(deleting_object));
+			} else {
+				reject(err);
+			}
+		});
+	}
 }
 
-module.exports =  Person
+module.exports = Person
