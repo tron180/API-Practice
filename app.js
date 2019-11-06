@@ -28,14 +28,14 @@ p1.save({ 'name': 'Alice', 'BirthYear': 1996 })
 
 	.then((object) => {
 		console.log('Successfully Found...!!', JSON.stringify(object))
-		return p1.update({ 'age': 24 }, { 'age': 63 })
+		return p1.update({ 'name': 'John' }, { 'name': 'Johnathen' })
 	}).catch(err => {
 		console.log('Data Not Found for Updation.')
 	})
 
 	.then((object) => {
 		console.log('Successfully Updated..!!', JSON.stringify(object))
-		return p1.delete({ 'age': 63 })
+		return p1.delete({ 'name': 'Alice' })
 	}).catch(err => {
 		console.log('delete failed', err)
 	})

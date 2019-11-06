@@ -69,7 +69,6 @@ class ArrayAdapter {
 						return resolve(this.array_of_numbers)
 					}
 				})
-
 			})
 			reject("not deleted");
 		})
