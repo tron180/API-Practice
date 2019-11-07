@@ -7,9 +7,7 @@ class ArrayAdapter {
 	save(object) {
 		return new Promise((resolve, reject) => {
 			if (Object.keys(object).length > 0) {
-				let age = ageCalcy(object['BirthYear']);
 				let randomNo = IdGen();
-				object.age = age;
 				object.id = randomNo;
 				this.array_of_numbers.push(object);
 				resolve(
@@ -80,11 +78,4 @@ module.exports = ArrayAdapter;
 // Id Generator
 function IdGen() {
 	return Math.random().toString(36).substring(7);
-}
-
-// Age Calculator
-function ageCalcy(yearOfBirth) {
-	let current_date = new Date();
-	let current_year = current_date.getFullYear();
-	return current_year - yearOfBirth;
 }

@@ -6,12 +6,20 @@ class Person {
 	save(object) {
 		return new Promise((resolve, reject) => {
 			if (object.name && object.BirthYear) {
-				resolve(this.adapter.save(object))
+				resolve(object)
 			} else {
 				reject('Something is missing')
 			}
 		})
-	}
+			.then((object) => {
+				let age = ageCalcy(object.BirthYear)
+				object = { ...age, ...object }
+				return object
+			})
+			.then((object) => {
+				return this.adapter.save(object)
+				})
+			}
 
 	find(object) {
 		return new Promise((resolve, reject) => {
@@ -42,6 +50,12 @@ class Person {
 			}
 		});
 	}
+}
+
+const ageCalcy = (yearOfBirth) => {
+	let current_date = new Date();
+	let current_year = current_date.getFullYear();
+	return current_year - yearOfBirth;
 }
 
 module.exports = Person
