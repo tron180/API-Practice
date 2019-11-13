@@ -81,28 +81,3 @@ class MongoAdapter {
 }
 
 module.exports = MongoAdapter;
-
-
-// Person.deleteMany()
-// .then(() => {
-//     return new Person ({id: '1', 'name':'Rohan', 'birthYear':'1993', 'age': 43}).save()
-// })
-// .then((object)=> {
-//     // console.log(object)
-// })
-// .then(() => {
-//     return Person.find({})
-// })
-// .then((object)=> {
-//     console.log(object)
-// })
-// .then(() => {
-//     return Person.update({'name':'Rohan'}, {'name': 'Anita'})
-// })
-// .then(() => {
-//     return Person.find({})
-// })
-// .then((object) => {
-//     console.log(object)
-// })
-

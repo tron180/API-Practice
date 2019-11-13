@@ -8,7 +8,7 @@ const FileAdapter = require('./fileAdapter');
 let arrayAdapter = new ArrayAdapter();
 let mongoAdapter = new MongoAdapter()
 let fileAdapter = new FileAdapter()
-let p1 = new Person(arrayAdapter)
+let p1 = new Person(fileAdapter)
 
 
 p1.delete()
@@ -27,7 +27,7 @@ p1.delete()
 		console.log('Something went wrong.', err)
 	})
 
-	.then((object) => {
+	.then(() => {
 		return p1.find({ })
 	}).catch(err => {
 		console.log('Data Not Found.', err)
