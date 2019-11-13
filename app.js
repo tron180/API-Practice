@@ -5,10 +5,10 @@ const info = require('./database.json');
 const MongoAdapter = require('./mongoAdapter');
 const FileAdapter = require('./fileAdapter');
 
-var arrayAdapter = new ArrayAdapter();
-var mongoAdapter = new MongoAdapter()
-var fileAdapter = new FileAdapter()
-var p1 = new Person(arrayAdapter)
+let arrayAdapter = new ArrayAdapter();
+let mongoAdapter = new MongoAdapter()
+let fileAdapter = new FileAdapter()
+let p1 = new Person(fileAdapter)
 
 
 p1.delete()
@@ -27,8 +27,8 @@ p1.delete()
 		console.log('Something went wrong.', err)
 	})
 
-	.then((object) => {
-		return p1.find({ 'name': 'Alice' })
+	.then(() => {
+		return p1.find({ })
 	}).catch(err => {
 		console.log('Data Not Found.', err)
 	})
@@ -42,7 +42,7 @@ p1.delete()
 
 	.then((object) => {
 		console.log('Successfully Updated..!!', JSON.stringify(object))
-		return p1.delete({ 'name': 'Alice', 'name': 'Johnathen', 'name': 'John' })
+		return p1.delete({ 'name': 'Alice' })
 	}).catch(err => {
 		console.log('delete failed', err)
 	})
@@ -51,4 +51,11 @@ p1.delete()
 		console.log('Successfully Deleted..!!', JSON.stringify(object))
 	}).catch(err => {
 		console.log('Data Not Found.')
+	})
+	.then(() => {
+		return p1.find()
+	})
+	.then((object) => {
+		console.log('Successfully Found...!!', JSON.stringify(object))
+		return object
 	})
