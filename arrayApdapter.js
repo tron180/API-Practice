@@ -1,3 +1,5 @@
+const utils = require('./lib/utils');
+
 class ArrayAdapter {
 	constructor() {
 		this.array_of_numbers = [];
@@ -5,18 +7,21 @@ class ArrayAdapter {
 
 	// Save
 	save(object) {
-		return new Promise((resolve, reject) => {
-			if (Object.keys(object).length > 0) {
-				let randomNo = IdGen();
-				object.id = randomNo;
-				this.array_of_numbers.push(object);
-				resolve(
-					object
-				);
-			} else {
-				reject('Failed to add.');
-			}
-		})
+		return Promise.resolve()
+			.then(() => {
+				if (object) {
+					object.id = utils.IdGen();
+				}
+			})
+			.then(() => {
+				return this.array_of_numbers.push(object);
+			})
+			.then(object => {
+				return object;
+			})
+			.catch(err => {
+				throw err;
+			})
 	};
 
 
@@ -42,40 +47,55 @@ class ArrayAdapter {
 
 	// Update
 	update(finder_object, changed_data_object) {
-		if (finder_object && changed_data_object) {
-			return new Promise((resolve, reject) => {
-				this.array_of_numbers.map((item, key) => {
-					return Object.keys(finder_object).map(item1 => {
-						if (item[item1] == finder_object[item1]) {
-							item[item1] = changed_data_object[item1]
-							return resolve(this.array_of_numbers[key]);
-						}
-					})
-				});
-				reject('Failed');
+		return Promise.resolve()
+			.then(() => {
+				if (finder_object && changed_data_object) {
+					this.array_of_numbers.map((item, key) => {
+						return Object.keys(finder_object).map(item1 => {
+							if (item[item1] == finder_object[item1]) {
+								item[item1] = changed_data_object[item1]
+								return this.array_of_numbers[key];
+							}
+						})
+					});
+					reject('Failed');
+				}
 			})
-		}
+			.then((array) => {
+				return array
+			})
+			.catch((err) => {
+				throw err
+			})
 	};
 
 	// Delete
 	delete(deleting_object) {
-		return new Promise((resolve, reject) => {
-			this.array_of_numbers.map((item, key) => {
-				Object.keys(deleting_object).map(item1 => {
-					if (item[item1] == deleting_object[item1]) {
-						this.array_of_numbers.pop(key)
-						return resolve(this.array_of_numbers)
-					}
-				})
-			})
-			reject("not deleted");
-		})
+		return Promise.resolve()
+			.then(() => {
+				if(this.array_of_numbers.length != 0){
+					
+				}
+			});
+			// 	if (this.array_of_numbers.length > 0) {
+			// 		this.array_of_numbers.map((item, key) => {
+			// 			Object.keys(deleting_object).map(item1 => {
+			// 				if (item[item1] == deleting_object[item1]) {
+			// 					this.array_of_numbers.pop(key)
+			// 					return this.array_of_numbers
+			// 				}
+			// 			})
+			// 		})
+			// 	} else {
+			// 		return this.array_of_numbers
+			// 	}
+			// })
+			// .catch(() => {
+			// 	throw err
+			// })
 	};
 }
 
 module.exports = ArrayAdapter;
 
-// Id Generator
-function IdGen() {
-	return Math.random().toString(36).substring(7);
-}
+

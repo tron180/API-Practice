@@ -1,5 +1,6 @@
 let info = require('./database.json');
 let fs = require('fs');
+const utils = require('./lib/utils');
 
 let resultArr = [];
 
@@ -9,7 +10,7 @@ class FileAdapter{
     save(object){
         return new Promise((resolve, reject) => {
             if(object){
-                const id = {'id': newId(info)};
+                const id = {'id': utils.IdGen(info)};
                 object = {...id, ...object};
                 info.push(object)
                 writeJSONFile('database.json', info)
@@ -60,11 +61,7 @@ class FileAdapter{
     
 }
 
-module.exports = FileAdapter
-
-const newId = (array) => {
-    return Math.random().toString(36).substring(7);
-}
+module.exports = FileAdapter;
 
 let writeJSONFile = (filename, content) => {
     fs.writeFileSync(filename, JSON.stringify(content), 'utf8', (err) => {

@@ -4,22 +4,24 @@ class Person {
 	};
 
 	save(object) {
-		return new Promise((resolve, reject) => {
-			if (object.name && object.BirthYear) {
-				resolve(object)
-			} else {
-				reject('Something is missing')
-			}
-		})
+		return Promise.resolve()
+			.then(() => {
+				if (object.name && object.BirthYear) {
+					return object
+				}
+			})
 			.then((object) => {
 				let age = ageCalcy(object.BirthYear)
-				object = { ...age, ...object }
+				object.age = age;
 				return object
 			})
 			.then((object) => {
 				return this.adapter.save(object)
-				})
-			}
+			})
+			.catch(() => {
+				throw 'Something is missing..!!'
+			})
+	}
 
 	find(object) {
 		return new Promise((resolve, reject) => {
@@ -41,7 +43,7 @@ class Person {
 		});
 	}
 
-	delete(deleting_object) {
+	delete(deleting_object = {}) {
 		return new Promise((resolve, reject) => {
 			if (deleting_object) {
 				resolve(this.adapter.delete(deleting_object));
