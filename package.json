@@ -1,0 +1,25 @@
+{
+  "name": "adapter-practise",
+  "version": "1.0.0",
+  "description": "Learning about adapter patterns.",
+  "main": "app.js",
+  "dependencies": {
+    "mongoose": "^5.7.9",
+    "nodemon": "^1.19.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js --ignore database.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tron180/API-Practice.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tron180/API-Practice/issues"
+  },
+  "homepage": "https://github.com/tron180/API-Practice#readme"
+}
