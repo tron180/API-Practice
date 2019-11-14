@@ -42,10 +42,12 @@ class Person {
 		return Promise.resolve()
 		.then(() => {
 			if (finder_object && changed_data_object) {
-				return finder_object, changed_data_object;
+				return {};
+			}else{
+				throw {}
 			}
 		})
-		.then(finder_object, changed_data_object => {
+		.then(() => {
 			return this.adapter.update(finder_object, changed_data_object)
 		})
 		.catch(() => {
