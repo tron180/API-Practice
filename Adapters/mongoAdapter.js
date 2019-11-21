@@ -1,26 +1,18 @@
 const mongoose = require("mongoose");
-const utils = require("./lib/utils");
+const utils = require("../lib/utils");
+const Model = require('../mongoModels');
 
-mongoose.connect("mongodb://localhost/myapp", {
+mongoose.connect("mongodb://localhost/test", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
-var Person = mongoose.model(
-  "Person",
-  new mongoose.Schema({
-    id: String,
-    name: String,
-    birth_year: Number,
-    age: Number
-  })
-);
-
 class MongoAdapter {
-  constructor() {}
+  constructor() { }
 
   // Save
-  save(object) {
+  save(object, modelUsed) {
+    console.log('Hi from mongo');
     return Promise.resolve()
       .then(() => {
         if (object) {
@@ -30,7 +22,7 @@ class MongoAdapter {
         }
       })
       .then(object => {
-        return Person(object).save();
+        return Model[modelUsed](object).save();
       })
       .then(object => {
         return object;
@@ -41,11 +33,11 @@ class MongoAdapter {
   }
 
   // Find
-  find(object) {
+  find(object, modelUsed) {
     return Promise.resolve()
       .then(() => {
         if (object) {
-          return Person.find(object);
+          return Model[modelUsed].find(object);
         }
       })
       .then(object => {
@@ -57,13 +49,13 @@ class MongoAdapter {
   }
 
   // Update
-  update(finder_object, changed_data_object) {
+  update(finder_object, changed_data_object, modelUsed) {
     return Promise.resolve()
       .then(() => {
-        return Person.updateMany(finder_object, changed_data_object);
+        return Model[modelUsed].updateMany(finder_object, changed_data_object);
       })
       .then(() => {
-        return Person.find(changed_data_object);
+        return Model[modelUsed].find(changed_data_object);
       })
       .catch(err => {
         throw err;
@@ -71,13 +63,13 @@ class MongoAdapter {
   }
 
   // Delete
-  delete(deleting_object = {}) {
+  delete(deleting_object = {}, modelUsed) {
     return Promise.resolve()
       .then(() => {
-        return Person.deleteMany(deleting_object);
+        return Model[modelUsed].deleteMany(deleting_object);
       })
       .then(() => {
-        return Person.find(deleting_object);
+        return Model[modelUsed].find(deleting_object);
       })
       .catch(err => {
         throw err;

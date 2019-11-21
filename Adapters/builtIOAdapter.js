@@ -1,19 +1,12 @@
 let Built = require("built.io");
-let Person = Built.App("bltaa628f580f31b6ae").Class("person");
-const utils = require("./lib/utils");
-
-// var Person = mongoose.model('Person', new mongoose.Schema({
-// 	id: String,
-// 	name: String,
-// 	BirthYear: Number,
-// 	age: Number,
-// }));
+let ClassUsed = Built.App("bltaa628f580f31b6ae");
+const utils = require("../lib/utils");
 
 class BuiltAdapter {
   constructor() {}
 
   // Save
-  save(object) {
+  save(object, class_used) {
     return Promise.resolve()
       .then(() => {
         if (object) {
@@ -23,11 +16,13 @@ class BuiltAdapter {
         }
       })
       .then(object => {
-        return Person.Object()
+        return ClassUsed.Class(class_used)
+          .Object()
           .assign(object)
           .save();
       })
-      .then(() => {
+      .then(something => {
+        // console.log(something.toJSON())
         return object;
       })
       .catch(err => {
@@ -36,7 +31,7 @@ class BuiltAdapter {
   }
 
   // Find
-  find(object) {
+  find(object, class_used) {
     return Promise.resolve()
       .then(() => {
         if (object) {
@@ -44,7 +39,8 @@ class BuiltAdapter {
         }
       })
       .then(object => {
-        return Person.Query()
+        return ClassUsed.Class(class_used)
+          .Query()
           .where(object)
           .exec();
       })
@@ -59,7 +55,7 @@ class BuiltAdapter {
   }
 
   // Update
-  update(finder_object, changed_data_object) {
+  update(finder_object, changed_data_object, class_used) {
     return Promise.resolve()
       .then(() => {
         if (finder_object) {
@@ -67,7 +63,8 @@ class BuiltAdapter {
         }
       })
       .then(finder_object => {
-        return Person.Query()
+        return ClassUsed.Class(class_used)
+          .Query()
           .where(finder_object)
           .exec();
       })
@@ -76,13 +73,14 @@ class BuiltAdapter {
           return item.toJSON().uid;
         });
       })
-      .then(uid => {
-        return uid.map(item => {
-          for (let [key, value] of Object.entries(changed_data_object)) {
-            return Person.Object(item)
-              .set(key, value)
-              .save();
-          }
+      .then(uids => {
+        return uids.map(item => {
+          // for (let [key, value] of Object.entries(changed_data_object)) {
+          return ClassUsed.Class(class_used)
+            .Object(item)
+            .assign(changed_data_object)
+            .save()
+          // }
         });
       })
       .catch(err => {
@@ -91,7 +89,7 @@ class BuiltAdapter {
   }
 
   // Delete
-  delete(object) {
+  delete(object, class_used) {
     return Promise.resolve()
       .then(() => {
         if (object) {
@@ -99,7 +97,8 @@ class BuiltAdapter {
         }
       })
       .then(object => {
-        return Person.Query()
+        return ClassUsed.Class(class_used)
+          .Query()
           .where(object)
           .exec();
       })
@@ -110,7 +109,9 @@ class BuiltAdapter {
       })
       .then(uid => {
         return uid.map(item => {
-          return Person.Object(item).delete();
+          return ClassUsed.Class(class_used)
+            .Object(item)
+            .delete();
         });
       })
       .catch(err => {

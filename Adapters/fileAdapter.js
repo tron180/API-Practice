@@ -1,6 +1,6 @@
-let info = require("./database.json");
+let info = require("../database.json");
 let fs = require("fs");
-const utils = require("./lib/utils");
+const utils = require("../lib/utils");
 
 let resultArr = [];
 

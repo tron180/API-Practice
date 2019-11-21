@@ -1,6 +1,7 @@
 class Person {
   constructor(adapter) {
     this.adapter = adapter;
+    this.class_used = 'person';
   }
 
   save(object) {
@@ -16,7 +17,7 @@ class Person {
         return object;
       })
       .then(object => {
-        return this.adapter.save(object);
+        return this.adapter.save(object, this.class_used);
       })
       .catch(err => {
         throw ("Something is missing..!!", err);
@@ -31,7 +32,7 @@ class Person {
         }
       })
       .then(object => {
-        return this.adapter.find(object);
+        return this.adapter.find(object, this.class_used);
       })
       .catch(() => {
         throw "Enter something to search.";
@@ -48,7 +49,7 @@ class Person {
         }
       })
       .then(() => {
-        return this.adapter.update(finder_object, changed_data_object);
+        return this.adapter.update(finder_object, changed_data_object, this.class_used);
       })
       .catch(() => {
         throw "Enter something to Search or Alternative data.";
@@ -63,10 +64,10 @@ class Person {
         }
       })
       .then(deleting_object => {
-        return this.adapter.delete(deleting_object);
+        return this.adapter.delete(deleting_object, this.class_used);
       })
-      .catch(() => {
-        throw "Enter the deleting element";
+      .catch((err) => {
+        throw "Enter the deleting element", err;
       });
   }
 }
