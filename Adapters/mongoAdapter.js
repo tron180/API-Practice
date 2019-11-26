@@ -12,7 +12,6 @@ class MongoAdapter {
 
   // Save
   save(object, modelUsed) {
-    console.log('Hi from mongo');
     return Promise.resolve()
       .then(() => {
         if (object) {
