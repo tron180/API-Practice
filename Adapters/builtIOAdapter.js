@@ -74,15 +74,17 @@ class BuiltAdapter {
         });
       })
       .then(uids => {
-        return uids.map(item => {
-          // for (let [key, value] of Object.entries(changed_data_object)) {
+        return Promise.all(uids.map(item => {
           return ClassUsed.Class(class_used)
             .Object(item)
             .assign(changed_data_object)
             .save()
-          // }
-        });
+            .then(obj => {
+              return obj.toJSON();
+            })
+        }));
       })
+
       .catch(err => {
         throw err;
       });

@@ -107,7 +107,7 @@ app.put("/adapters/:adapter/models/:model/objects/:id", function(req, res) {
     })
     .then(instance => {
       console.log("Searching the id ", req.params.id)
-      var filter = {id: req.params.id}
+      var filter = {[req.params.adapter == "builtio" ? "unique_id" : "id"] : req.params.id}
       return instance.update(filter, req.body);
     })
     .then(obj => {
@@ -131,12 +131,35 @@ app.delete("/adapters/:adapter/models/:model/objects/:id", function(req, res) {
       return getModelInstance(req.params.model, adapter);
     })
     .then(instance => {
-      console.log("Searching the id ", req.params.id)
-      var filter = {id: req.params.id}
+      console.log("Deleting the id ", req.params.id)
+      var filter = {[req.params.adapter == "builtio" ? "unique_id" : "id"] : req.params.id}
       return instance.delete(filter);
     })
     .then(obj => {
       console.log("Given object deleted successfully..!!");
+      return res.json({
+        adapter: req.params.adapter,
+        model: req.params.model,
+        status: "Workingg..!!",
+        data: obj
+      });
+    })
+    .catch(err => {
+      return res.status(404).send(err);
+    });
+});
+
+// DELETE all Request
+app.delete("/adapters/:adapter/models/:model/objects", function(req, res) {
+  return getAdapter(req.params.adapter)
+    .then(adapter => {
+      return getModelInstance(req.params.model, adapter);
+    })
+    .then(instance => {
+      return instance.delete();
+    })
+    .then(obj => {
+      console.log("All objects are deleted successfully..!!");
       return res.json({
         adapter: req.params.adapter,
         model: req.params.model,
