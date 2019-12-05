@@ -4,14 +4,19 @@
   "description": "Learning about adapter patterns.",
   "main": "app.js",
   "dependencies": {
+    "built.io": "^4.3.0",
+    "chai-http": "^4.3.0",
     "express": "^4.17.1",
     "mongoose": "^5.7.9",
     "nodemon": "^1.19.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js --ignore database.json"
+    "test": "mocha",
+    "start": "nodemon server.js --ignore database.json"
   },
   "repository": {
     "type": "git",

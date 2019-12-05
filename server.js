@@ -175,3 +175,6 @@ app.delete("/adapters/:adapter/models/:model/objects", function(req, res) {
 app.listen(port, () => {
   console.log("Server is listening on port 3000");
 });
+
+
+module.exports = app
