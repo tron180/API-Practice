@@ -15,7 +15,7 @@
     "mocha": "^6.2.2"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --timeout 40000",
     "start": "nodemon server.js --ignore database.json"
   },
   "repository": {

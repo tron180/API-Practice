@@ -1,8 +1,9 @@
 const utils = require("../lib/utils");
 
+array_of_numbers = [];
 class ArrayAdapter {
-  constructor() {
-    this.array_of_numbers = [];
+  constructor() { 
+    this.array_of_numbers = array_of_numbers;
   }
 
   // Save
@@ -16,7 +17,7 @@ class ArrayAdapter {
       })
       .then(object => {
         this.array_of_numbers.push(object);
-        return this.array_of_numbers;
+        return object;
       })
       .then(object => {
         return object;

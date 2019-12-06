@@ -1,6 +1,5 @@
 process.env.NODE_ENV = "test";
 
-let mongoose = require("mongoose");
 const MongoAdapter = require("../Adapters/mongoAdapter");
 const ArrayAdapter = require("../Adapters/arrayApdapter");
 const FileAdapter = require("../Adapters/fileAdapter");
@@ -20,9 +19,10 @@ const Vehicle = require("../Models/vehicle");
 const chai = require("chai");
 let chaiHttp = require("chai-http");
 let server = require("../server");
-let should = chai.should();
+const should = chai.should();
 
 chai.use(chaiHttp);
+
 const adapters = {
   mongo: mongoAdapter,
   file: fileAdapter,
@@ -32,8 +32,7 @@ const adapters = {
 
 Object.keys(adapters).map(item => {
   describe("Records", function() {
-    this.timeout(7000);
-    before(done => {
+    beforeEach(done => {
       Promise.resolve()
         .then(() => {
           return new Person(adapters[item]);
@@ -48,47 +47,60 @@ Object.keys(adapters).map(item => {
           throw err;
         });
     });
-    describe("/GET Request", () => {
-      beforeEach(done => {
+    describe(`${item} /GET Request`, () => {
+      it("should GET empty data", done => {
+        Promise.resolve().then(() => {
+          chai
+            .request(server)
+            .get(`/adapters/${item}/models/person/objects`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.data.should.be.a("array");
+              res.body.data.length.should.be.eql(0);
+              done();
+            });
+        });
+      });
+      it("should GET the data from the database", done => {
         Promise.resolve()
           .then(() => {
             return new Person(adapters[item]);
           })
           .then(instance => {
-            return instance.delete();
+            let record = {
+              name: "Alice",
+              birth_year: 1996
+            };
+            return instance.save(record);
           })
           .then(() => {
-            done();
-          });
-      });
-      it("should GET empty data", done => {
-        this.timeout(20000);
-        chai
-          .request(server)
-          .get("/adapters/mongo/models/person/objects")
-          .end((err, res) => {
-            res.should.have.status(200);
-            res.body.data.should.be.a("array");
-            res.body.data.length.should.be.eql(0);
-            done();
+            chai
+              .request(server)
+              .get(`/adapters/${item}/models/person/objects`)
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body.data.should.be.a("array");
+                res.body.data[0].name.should.be.eql('Alice');
+                done();
+              });
           });
       });
     });
     describe("/POST Request", () => {
       it("should return data entered just now", done => {
-        this.timeout(20000);
         let record = {
           name: "Clark",
           birth_year: 1995
         };
         chai
           .request(server)
-          .post(record)
+          .post(`/adapters/${item}/models/person/objects`)
+          .send(record)
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.should.be.a("object");
-            res.body.should.have.property("name");
-            res.body.should.have.property("birth_year");
+            res.body.data.should.be.a("object");
+            res.body.data.should.have.property("name");
+            res.body.data.should.have.property("birth_year");
             done();
           });
       });

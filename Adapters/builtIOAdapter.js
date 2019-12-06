@@ -74,15 +74,17 @@ class BuiltAdapter {
         });
       })
       .then(uids => {
-        return Promise.all(uids.map(item => {
-          return ClassUsed.Class(class_used)
-            .Object(item)
-            .assign(changed_data_object)
-            .save()
-            .then(obj => {
-              return obj.toJSON();
-            })
-        }));
+        return Promise.all(
+          uids.map(item => {
+            return ClassUsed.Class(class_used)
+              .Object(item)
+              .assign(changed_data_object)
+              .save()
+              .then(obj => {
+                return obj.toJSON();
+              });
+          })
+        );
       })
 
       .catch(err => {
@@ -110,11 +112,13 @@ class BuiltAdapter {
         });
       })
       .then(uid => {
-        return uid.map(item => {
-          return ClassUsed.Class(class_used)
-            .Object(item)
-            .delete();
-        });
+        return Promise.all(
+          uid.map(item => {
+            return ClassUsed.Class(class_used)
+              .Object(item)
+              .delete();
+          })
+        );
       })
       .catch(err => {
         throw err;
